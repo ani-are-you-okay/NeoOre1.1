@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeoOre - India's Premium Urban Mining Network</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">🌍 NeoOre</div>
+            <div class="nav-links">
+                <a href="#home" onclick="showPage('home')">Home</a>
+                <a href="#services" onclick="showPage('services')">Services</a>
+                <a href="#why" onclick="showPage('why')">Why NeoOre</a>
+                <a href="#cities" onclick="showPage('cities')">Coverage</a>
+                <a href="#testimonials" onclick="showPage('testimonials')">Testimonials</a>
+                <a href="#faq" onclick="showPage('faq')">FAQ</a>
+                <a href="#app" onclick="showPage('app')" class="btn-start">Start Selling</a>
+                <a href="#admin" onclick="adminLogin()" class="btn-admin-nav">Admin</a>
+                <button class="theme-toggle" onclick="toggleTheme()" title="Toggle Dark/Light Mode">🌙</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ADMIN LOGIN MODAL -->
+    <div id="admin-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAdminModal()">&times;</span>
+            <h2>Admin Login</h2>
+            <div style="margin: 20px 0;">
+                <input type="password" id="admin-password" placeholder="Enter admin password" style="padding: 10px; width: 100%; border: 1px solid #ddd; border-radius: 4px; font-size: 1em;">
+                <button onclick="adminLoginSubmit()" style="margin-top: 10px; padding: 10px 20px; background: #FC6736; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600; width: 100%;">Login</button>
+            </div>
+            <p style="font-size: 0.9em; color: #666; margin-top: 10px;">Demo Password: <strong>admin123</strong></p>
+        </div>
+    </div>
+
+    <!-- HOME PAGE -->
+    <div id="home-page" class="page active">
+        <div class="hero">
+            <h1>Turn Your E-Waste Into Cash ♻️</h1>
+            <p>India's Premium Urban Mining Network</p>
+            <p class="tagline">Get instant quotes • Free pickup • Environmental impact tracking</p>
+            <button class="btn-primary" onclick="showPage('app')">Sell Your E-Waste Now</button>
+        </div>
+
+        <div class="impact-section">
+            <h2>Our Impact So Far</h2>
+            <div class="impact-grid">
+                <div class="impact-card">
+                    <h3>81.10 Lakh kg</h3>
+                    <p>E-Waste Diverted from Landfills</p>
+                </div>
+                <div class="impact-card">
+                    <h3>13.8 Cr L</h3>
+                    <p>Water Conserved</p>
+                </div>
+                <div class="impact-card">
+                    <h3>5.65 Lakh kWh</h3>
+                    <p>Electricity Saved</p>
+                </div>
+                <div class="impact-card">
+                    <h3>10,243</h3>
+                    <p>Trees Saved</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="featured-section">
+            <h2>Trusted By</h2>
+            <p>100+ corporate partners and government institutions</p>
+            <div class="partners-grid">
+                <div class="partner">IIT Mumbai</div>
+                <div class="partner">NITI Aayog</div>
+                <div class="partner">Amazon India</div>
+                <div class="partner">Tech Startups</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SERVICES PAGE -->
+    <div id="services-page" class="page">
+        <div class="page-header">
+            <h1>Our Services</h1>
+            <p>Complete e-waste recycling solutions for individuals and businesses</p>
+        </div>
+
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">🏠</div>
+                <h3>Individual Collections</h3>
+                <p>Sell your old phones, laptops, and devices instantly with door-to-door pickup</p>
+                <ul>
+                    <li>Free pickup for orders > 50kg</li>
+                    <li>₹100 pickup charge for smaller orders</li>
+                    <li>Instant cash payout</li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">🏢</div>
+                <h3>Corporate Recycling</h3>
+                <p>Help your business achieve sustainability goals and offset carbon footprint</p>
+                <ul>
+                    <li>Bulk collection services</li>
+                    <li>EPR compliance support</li>
+                    <li>Sustainability certification</li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">🔒</div>
+                <h3>Secure Data Destruction</h3>
+                <p>Certified secure disposal of confidential devices and documents</p>
+                <ul>
+                    <li>Certificate of destruction</li>
+                    <li>Safe data handling</li>
+                    <li>Industry compliant</li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">📋</div>
+                <h3>EPR Management</h3>
+                <p>Extended Producer Responsibility compliance as registered PRO</p>
+                <ul>
+                    <li>Government recognized</li>
+                    <li>Easy documentation</li>
+                    <li>Certified processing</li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">🎯</div>
+                <h3>Zero Waste Events</h3>
+                <p>Sustainable waste management for corporate events and institutions</p>
+                <ul>
+                    <li>Event planning</li>
+                    <li>On-site collection</li>
+                    <li>Impact reporting</li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">🚗</div>
+                <h3>Vehicle Scrapping</h3>
+                <p>Eco-friendly disposal of end-of-life vehicles</p>
+                <ul>
+                    <li>Government approved</li>
+                    <li>Fair valuation</li>
+                    <li>Fast processing</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- WHY NEOORE PAGE -->
+    <div id="why-page" class="page">
+        <div class="page-header">
+            <h1>Why Choose NeoOre?</h1>
+            <p>Sustainability meets profitability</p>
+        </div>
+
+        <div class="why-container">
+            <div class="why-item">
+                <h3>🌍 Environmental Impact</h3>
+                <p>Every device you recycle with NeoOre prevents toxic materials from reaching landfills. Our 82% recovery rate for precious metals means maximum resource extraction and minimum waste.</p>
+            </div>
+
+            <div class="why-item">
+                <h3>💰 Fair Pricing</h3>
+                <p>Transparent, market-based valuations. No hidden fees. You see exactly what you'll get paid, and it gets to you fast through door-to-door pickup.</p>
+            </div>
+
+            <div class="why-item">
+                <h3>✅ Certified & Compliant</h3>
+                <p>Government-approved processing facility. We follow all EPR regulations, data protection laws, and environmental standards. Your peace of mind is guaranteed.</p>
+            </div>
+
+            <div class="why-item">
+                <h3>🔄 Circular Economy</h3>
+                <p>We're not just recycling—we're recovering valuable metals like gold, silver, and rare earths. This supports India's urban mining revolution and creates sustainable value.</p>
+            </div>
+
+            <div class="why-item">
+                <h3>📊 Transparency</h3>
+                <p>See exactly what metals your devices contain and track your environmental impact. From phones to servers, we handle all categories with expertise.</p>
+            </div>
+
+            <div class="why-item">
+                <h3>🚀 Innovation</h3>
+                <p>AI-powered device valuation. Real-time metal pricing. Digital aggregator platform. We're building the future of urban mining in India.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- CITIES PAGE -->
+    <div id="cities-page" class="page">
+        <div class="page-header">
+            <h1>Where We Operate</h1>
+            <p>Now serving 4 major cities • Expanding rapidly</p>
+        </div>
+
+        <div class="cities-grid">
+            <div class="city-card active">
+                <h3>📍 Mumbai</h3>
+                <p>HQ • Full Service</p>
+            </div>
+            <div class="city-card">
+                <h3>📍 Pune</h3>
+                <p>Coming Soon</p>
+            </div>
+            <div class="city-card">
+                <h3>📍 Bangalore</h3>
+                <p>Coming Soon</p>
+            </div>
+            <div class="city-card">
+                <h3>📍 Delhi</h3>
+                <p>Coming Soon</p>
+            </div>
+            <div class="city-card">
+                <h3>📍 Hyderabad</h3>
+                <p>Q1 2026</p>
+            </div>
+            <div class="city-card">
+                <h3>📍 Chennai</h3>
+                <p>Q2 2026</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- TESTIMONIALS PAGE -->
+    <div id="testimonials-page" class="page">
+        <div class="page-header">
+            <h1>What Our Customers Say</h1>
+            <p>Real feedback from real users</p>
+        </div>
+
+        <div class="testimonials-grid">
+            <div class="testimonial">
+                <p>"Sold my old laptop and got instant payment. Super transparent process!"</p>
+                <strong>- Priya Sharma, Mumbai</strong>
+            </div>
+            <div class="testimonial">
+                <p>"Best way to handle old devices responsibly. Love the environmental tracking."</p>
+                <strong>- Rajesh Kumar, Bangalore</strong>
+            </div>
+            <div class="testimonial">
+                <p>"Our company uses NeoOre for corporate waste management. Highly professional and compliant."</p>
+                <strong>- Tech Corp HR Team</strong>
+            </div>
+            <div class="testimonial">
+                <p>"Free pickup made it so easy. Would recommend to everyone!"</p>
+                <strong>- Ananya Patel, Delhi</strong>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ PAGE -->
+    <div id="faq-page" class="page">
+        <div class="page-header">
+            <h1>Frequently Asked Questions</h1>
+        </div>
+
+        <div class="faq-container">
+            <div class="faq-item">
+                <h4 onclick="toggleFaq(this)">How does the pricing work?</h4>
+                <p>We analyze the metal content in your devices and offer you 40% of the market value based on device tier. Simple, transparent, fair.</p>
+            </div>
+
+            <div class="faq-item">
+                <h4 onclick="toggleFaq(this)">What device categories do you accept?</h4>
+                <p>We accept all e-waste categories - smartphones, laptops, tablets, hard drives, TVs, printers, servers, and PCBs. Each categorized by tier.</p>
+            </div>
+
+            <div class="faq-item">
+                <h4 onclick="toggleFaq(this)">Is pickup really free?</h4>
+                <p>Free pickup for orders over 50kg. For smaller orders under 50kg, there's a ₹100 pickup charge, which is calculated into your final payout.</p>
+            </div>
+
+            <div class="faq-item">
+                <h4 onclick="toggleFaq(this)">What happens to my data?</h4>
+                <p>We offer certified data destruction services. Your devices are securely wiped and you get a certificate of destruction. Or you can wipe them yourself.</p>
+            </div>
+
+            <div class="faq-item">
+                <h4 onclick="toggleFaq(this)">How quickly do I get paid?</h4>
+                <p>After we collect your devices, we verify them within 24-48 hours and process payment via bank transfer.</p>
+            </div>
+
+            <div class="faq-item">
+                <h4 onclick="toggleFaq(this)">Can businesses use your service?</h4>
+                <p>Absolutely! We have special services for corporates including bulk collection, EPR compliance, and sustainability reporting.</p>
+            </div>
+
+            <div class="faq-item">
+                <h4 onclick="toggleFaq(this)">Are you government certified?</h4>
+                <p>Yes. We're a registered PRO (Producer Responsibility Organization) and follow all EPR regulations and environmental standards.</p>
+            </div>
+
+            <div class="faq-item">
+                <h4 onclick="toggleFaq(this)">How is my environmental impact calculated?</h4>
+                <p>Based on device weight. Every kg of e-waste recycled saves ~1.5kg CO2, 50L water, and 8kWh electricity.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- APP PAGE (Calculator) -->
+    <div id="app-page" class="page">
+        <div class="app-container">
+            <div class="portal-selector">
+                <button class="btn-customer active" onclick="switchPortal('customer')">👤 Get Quote</button>
+            </div>
+
+            <!-- CUSTOMER PORTAL -->
+            <div id="customer-portal" class="portal active customer-portal">
+                <div class="device-selection">
+                    <h2>📱 Select Your Devices</h2>
+                    
+                    <div class="device-tabs">
+                        <button class="tab-btn active" onclick="switchTab('smartphones')">Smartphones</button>
+                        <button class="tab-btn" onclick="switchTab('laptops')">Laptops</button>
+                        <button class="tab-btn" onclick="switchTab('other')">Other</button>
+                    </div>
+
+                    <div id="smartphones" class="device-list active scrollable-content"></div>
+                    <div id="laptops" class="device-list scrollable-content"></div>
+                    <div id="other" class="device-list scrollable-content"></div>
+                </div>
+
+                <div class="payout-panel">
+                    <h2>💰 Your Instant Quote</h2>
+                    
+                    <div class="payout-display">
+                        <div class="payout-label">You Get</div>
+                        <div class="payout-amount">₹<span id="customer-total">0</span></div>
+                        <div class="payout-weight">Total Weight: <span id="customer-weight">0</span> kg</div>
+                    </div>
+
+                    <div class="payout-details">
+                        <div class="detail-row">
+                            <span class="detail-label">📦 Devices Selected:</span>
+                            <span class="detail-value" id="device-count">0</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">⚖️ Total Weight:</span>
+                            <span class="detail-value"><span id="detail-weight">0</span> kg</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">🚚 Pickup:</span>
+                            <span class="detail-value"><span id="pickup-status">Free</span></span>
+                        </div>
+                    </div>
+
+                    <div class="environmental-impact">
+                        <h4>🌱 Your Environmental Impact</h4>
+                        <div class="impact-item">💨 CO₂ Saved: <strong id="co2-saved">0</strong> kg</div>
+                        <div class="impact-item">💧 Water Saved: <strong id="water-saved">0</strong> L</div>
+                        <div class="impact-item">⚡ Energy Saved: <strong id="energy-saved">0</strong> kWh</div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="generateReceipt()">📋 Generate Receipt PDF</button>
+                        <button class="btn btn-secondary" onclick="customerSubmit()">Schedule Pickup</button>
+                    </div>
+
+                    <div class="pickup-info">
+                        <small>✓ Free pickup for orders over 50kg | ₹100 pickup fee for smaller orders (included above)</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMIN PAGE -->
+    <div id="admin-page" class="page">
+        <div class="admin-header">
+            <h1>📊 Admin Dashboard</h1>
+            <button onclick="adminLogout()" style="padding: 10px 20px; background: #f44336; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">Logout</button>
+        </div>
+
+        <div class="admin-content">
+            <div class="admin-stats">
+                <div class="stat-card">
+                    <h3 id="total-orders">0</h3>
+                    <p>Total Orders</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="total-weight">0</h3>
+                    <p>Total Weight (kg)</p>
+                </div>
+                <div class="stat-card">
+                    <h3>₹<span id="total-revenue">0</span></h3>
+                    <p>Total Revenue</p>
+                </div>
+                <div class="stat-card">
+                    <h3>₹<span id="total-profit">0</span></h3>
+                    <p>Total Profit</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="avg-margin">0</h3>
+                    <p>Avg Profit Margin</p>
+                </div>
+            </div>
+
+            <h2 style="margin-top: 30px; margin-bottom: 20px;">Order Details</h2>
+            <div id="orders-list" class="orders-list">
+                <p style="text-align: center; color: #999;">No orders yet</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2025 NeoOre - India's Premium Urban Mining Network</p>
+            <p>Building a circular economy | Sustainable e-waste management</p>
+            <p>Contact: hello@neoore.in | +91-XXXX-XXXXXX</p>
+        </div>
+    </footer>
+
+    <!-- Receipt Modal -->
+    <div id="receipt-modal" class="modal">
+        <div class="modal-content" style="max-width: 500px;">
+            <span class="close" onclick="closeReceiptModal()">&times;</span>
+            <div id="receipt-content" style="padding: 20px; background: white; border-radius: 8px;">
+                <h2 style="text-align: center; margin-bottom: 20px;">NeoOre Receipt</h2>
+                <div id="receipt-body"></div>
+                <button onclick="downloadPDF()" style="width: 100%; padding: 10px; margin-top: 20px; background: #FC6736; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">Download as PDF</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
