@@ -1,6 +1,7 @@
 // E-WASTE RECYCLING: NeoOre PAYS customers
-// Formula: User Gets = (Base Payout - Delivery Cost)
-// NeoOre Profit = Metal Value - Base Payout - Operating Cost (MUST BE POSITIVE)
+// Simplified: No condition selector, fixed payouts
+// User Gets = (Base Payout - Delivery Cost)
+// NeoOre Profit = Metal Value - Base Payout - Operating Cost
 
 const devices = {
     smartphones: {
@@ -27,8 +28,6 @@ const metalData = {
     palladium: { price: 2656, recovery: 0.70 },
     rareEarth: { price: 9.96, recovery: 0.75 }
 };
-
-const conditions = { excellent: 1.0, good: 0.85, fair: 0.70, poor: 0.50, scrap: 0.40 };
 
 const costPerKg = 105;
 const qcPerDevice = 25;
@@ -72,7 +71,7 @@ function showPage(pageName) {
     window.scrollTo(0, 0);
 }
 
-// RENDER DEVICES
+// RENDER DEVICES (NO CONDITION SELECTOR)
 function renderAllDevices() {
     renderDevices('smartphones');
     renderDevices('laptops');
@@ -100,13 +99,6 @@ function renderDevices(category) {
                         <input type="number" id="qty-${device.id}" value="0" min="0" onchange="updateCalculations()">
                         <button onclick="changeQty('${device.id}', 1)">+</button>
                     </div>
-                    <select id="cond-${device.id}" class="condition-select" onchange="updateCalculations()">
-                        <option value="excellent">Excellent</option>
-                        <option value="good">Good</option>
-                        <option value="fair">Fair</option>
-                        <option value="poor">Poor</option>
-                        <option value="scrap">Scrap</option>
-                    </select>
                 </div>
             </div>
         `;
@@ -129,9 +121,7 @@ function changeQty(deviceId, delta) {
     updateCalculations();
 }
 
-// CALCULATE - CORRECTED FORMULA
-// User Gets = Base Payout - Delivery (if <50kg)
-// NeoOre Profit = Metal Value - Base Payout - Operating Cost (MUST BE POSITIVE)
+// CALCULATE - NO CONDITION MULTIPLIER
 function updateCalculations() {
     let selections = {};
     let totalWeight = 0;
@@ -144,31 +134,27 @@ function updateCalculations() {
         Object.keys(devices[category]).forEach(tierKey => {
             const device = devices[category][tierKey];
             const qty = parseInt(document.getElementById(`qty-${device.id}`).value || 0);
-            const condition = document.getElementById(`cond-${device.id}`).value;
             
             if (qty > 0) {
-                const condMultiplier = conditions[condition];
-                
-                // Actual weight (affected by condition)
-                const actualWeight = device.weight * qty * condMultiplier;
+                // NO CONDITION MULTIPLIER - always 1.0
+                const actualWeight = device.weight * qty;
                 
                 // Calculate metal value
                 let metalValue = 0;
                 Object.keys(device.metals).forEach(metal => {
                     const content = device.metals[metal];
-                    const totalContent = content * qty * condMultiplier;
+                    const totalContent = content * qty;
                     const recoverable = totalContent * metalData[metal].recovery;
                     metalValue += recoverable * metalData[metal].price;
                 });
 
-                // Fixed base payout (what we commit to pay)
+                // Fixed base payout
                 const basePayout = device.payoutPrice * qty;
 
                 selections[device.id] = { 
                     name: device.name, 
                     tier: device.tier, 
                     qty, 
-                    condition, 
                     actualWeight,
                     metalValue,
                     payoutPrice: device.payoutPrice,
@@ -179,25 +165,18 @@ function updateCalculations() {
                 deviceCount += qty;
                 totalMetalValue += metalValue;
                 totalBasePayouts += basePayout;
-                
-                // Operating cost based on actual weight + QC
                 operatingCost += (actualWeight * costPerKg) + (qty * qcPerDevice);
             }
         });
     });
 
-    // DELIVERY COST - paid by NeoOre for <50kg orders
+    // DELIVERY COST
     const deliveryCost = totalWeight > bulkThreshold ? 0 : pickupFeeSmall;
-    
-    // What user ACTUALLY GETS (after delivery deduction for small orders)
     const userActuallyGets = totalBasePayouts - deliveryCost;
-    
-    // NeoOre Profit = Metal Value - Base Payouts - Operating Cost
-    // (delivery cost is paid by NeoOre from metal value revenue)
     const neooreProfit = totalMetalValue - totalBasePayouts - operatingCost;
     const profitMargin = totalMetalValue > 0 ? (neooreProfit / totalMetalValue * 100) : 0;
 
-    // Display to customer (what they actually receive)
+    // Display to customer
     document.getElementById('customer-total').textContent = Math.round(userActuallyGets);
     document.getElementById('customer-weight').textContent = totalWeight.toFixed(2);
     document.getElementById('device-count').textContent = deviceCount;
@@ -207,7 +186,6 @@ function updateCalculations() {
     document.getElementById('water-saved').textContent = Math.round(totalWeight * 50);
     document.getElementById('energy-saved').textContent = (totalWeight * 8).toFixed(1);
 
-    // SAVE FOR RECEIPT
     currentOrder = {
         selections,
         totalWeight,
@@ -232,50 +210,44 @@ function generateReceipt() {
     let deviceHTML = '';
     Object.keys(currentOrder.selections).forEach(key => {
         const sel = currentOrder.selections[key];
-        deviceHTML += `<tr><td>${sel.name} [${sel.tier}]</td><td>${sel.qty}</td><td>${sel.condition}</td><td>₹${Math.round(sel.payoutPrice)}</td><td>₹${Math.round(sel.basePayout)}</td></tr>`;
+        deviceHTML += `<tr><td>${sel.name} [${sel.tier}]</td><td>${sel.qty}</td><td>₹${Math.round(sel.payoutPrice)}</td><td>₹${Math.round(sel.basePayout)}</td></tr>`;
     });
 
     const receiptHTML = `
-        <h2 style="text-align: center; color: #FC6736;">NeoOre Payout Receipt</h2>
+        <h2 style="text-align: center; color: #1b5e20;">NeoOre Payout Receipt</h2>
         <p style="text-align: center; font-size: 0.9em;">${new Date().toLocaleDateString()}</p>
         
-        <h3 style="color: #FC6736; margin-top: 20px;">Devices You're Selling</h3>
+        <h3 style="color: #1b5e20; margin-top: 20px;">Devices You're Selling</h3>
         <table style="width: 100%; border-collapse: collapse; font-size: 0.9em;">
-            <tr style="background: #f5f5f5;">
+            <tr style="background: #e8f5e9;">
                 <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Device</th>
                 <th style="border: 1px solid #ddd; padding: 8px;">Qty</th>
-                <th style="border: 1px solid #ddd; padding: 8px;">Condition</th>
-                <th style="border: 1px solid #ddd; padding: 8px;">Price/Unit</th>
+                <th style="border: 1px solid #ddd; padding: 8px;">Unit Price</th>
                 <th style="border: 1px solid #ddd; padding: 8px; text-align: right;">Total</th>
             </tr>
             ${deviceHTML}
         </table>
 
-        <h3 style="color: #FC6736; margin-top: 20px;">Payout Details</h3>
+        <h3 style="color: #1b5e20; margin-top: 20px;">Payout Details</h3>
         <p><strong>Total Devices:</strong> ${currentOrder.deviceCount}</p>
         <p><strong>Total Weight:</strong> ${currentOrder.totalWeight.toFixed(2)} kg</p>
         <p><strong>Base Payout:</strong> ₹${Math.round(currentOrder.totalBasePayouts)}</p>
-        ${currentOrder.deliveryCost > 0 ? `<p><strong>Less Delivery Cost:</strong> -₹${currentOrder.deliveryCost}</p>` : '<p><strong>Delivery:</strong> FREE (bulk order >50kg)</p>'}
-        <p style="font-size: 1.3em; color: #FC6736; margin-top: 20px; padding: 15px; background: #f9f9f9; border-radius: 8px;"><strong>You Will Receive: ₹${Math.round(currentOrder.userActuallyGets)}</strong></p>
+        ${currentOrder.deliveryCost > 0 ? `<p><strong>Less Delivery Cost:</strong> -₹${currentOrder.deliveryCost}</p>` : '<p><strong>Delivery:</strong> FREE</p>'}
+        <p style="font-size: 1.3em; color: #1b5e20; margin-top: 20px; padding: 15px; background: #e8f5e9; border-radius: 8px;"><strong>You Will Receive: ₹${Math.round(currentOrder.userActuallyGets)}</strong></p>
 
-        <h3 style="color: #FC6736; margin-top: 20px;">Your Environmental Impact</h3>
+        <h3 style="color: #1b5e20; margin-top: 20px;">Your Environmental Impact</h3>
         <p>💨 CO₂ Prevented: ${(currentOrder.totalWeight * 1.5).toFixed(2)} kg</p>
         <p>💧 Water Saved: ${Math.round(currentOrder.totalWeight * 50)} L</p>
         <p>⚡ Energy Saved: ${(currentOrder.totalWeight * 8).toFixed(1)} kWh</p>
 
         <p style="margin-top: 30px; font-size: 0.85em; color: #666;">
-            Our team will contact you within 24 hours to schedule pickup and confirm payment. We'll transfer the amount to your bank account immediately after verification.
+            Our team will contact you within 24 hours to schedule pickup.
         </p>
     `;
 
     document.getElementById('receipt-body').innerHTML = receiptHTML;
     document.getElementById('receipt-modal').classList.add('show');
-    
-    // SAVE ORDER
-    orders.push({
-        date: new Date().toLocaleDateString(),
-        ...currentOrder
-    });
+    orders.push({ date: new Date().toLocaleDateString(), ...currentOrder });
 }
 
 function downloadPDF() {
@@ -357,13 +329,13 @@ function loadAdminDashboard() {
             <div class="order-details">
                 <div class="order-detail-item"><span>Weight:</span> <strong>${order.totalWeight.toFixed(2)} kg</strong></div>
                 <div class="order-detail-item"><span>Devices:</span> <strong>${order.deviceCount}</strong></div>
-                <div class="order-detail-item"><span style="color: #4caf50;">Metal Value:</span> <strong style="color: #4caf50;">₹${Math.round(order.totalMetalValue)}</strong></div>
+                <div class="order-detail-item"><span>Metal Value:</span> <strong>₹${Math.round(order.totalMetalValue)}</strong></div>
                 <div class="order-detail-item"><span>Base Payout:</span> <strong>₹${Math.round(order.totalBasePayouts)}</strong></div>
-                <div class="order-detail-item"><span>Delivery Cost:</span> <strong>₹${order.deliveryCost}</strong></div>
+                <div class="order-detail-item"><span>Delivery:</span> <strong>₹${order.deliveryCost}</strong></div>
                 <div class="order-detail-item"><span>Customer Gets:</span> <strong>₹${Math.round(order.userActuallyGets)}</strong></div>
                 <div class="order-detail-item"><span>Operating Cost:</span> <strong>₹${Math.round(order.operatingCost)}</strong></div>
-                <div class="order-detail-item"><span style="color: #FC6736;">NeoOre Profit:</span> <strong style="color: #FC6736;">₹${Math.round(order.neooreProfit)}</strong></div>
-                <div class="order-detail-item"><span>Profit Margin:</span> <strong>${order.profitMargin.toFixed(2)}%</strong></div>
+                <div class="order-detail-item"><span>Profit:</span> <strong style="color: #2e7d32;">₹${Math.round(order.neooreProfit)}</strong></div>
+                <div class="order-detail-item"><span>Margin:</span> <strong>${order.profitMargin.toFixed(2)}%</strong></div>
                 <div class="order-detail-item"><span>Date:</span> <strong>${order.date}</strong></div>
             </div>
         </div>

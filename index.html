@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeoOre - E-Waste Recycling</title>
+    <title>NeoOre - Sell Your E-Waste for Cash</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
@@ -16,7 +16,7 @@
                 <a href="#home" onclick="showPage('home'); return false;">Home</a>
                 <a href="#services" onclick="showPage('services'); return false;">Services</a>
                 <a href="#why" onclick="showPage('why'); return false;">Why NeoOre</a>
-                <a href="#app" onclick="showPage('app'); return false;" class="btn-start">Calculator</a>
+                <a href="#app" onclick="showPage('app'); return false;" class="btn-start">Sell E-Waste</a>
                 <a href="#admin" onclick="openAdminModal(); return false;" class="btn-admin-nav">🔐 Admin</a>
                 <button class="theme-toggle" onclick="toggleTheme()" title="Toggle Dark/Light Mode">🌙</button>
             </div>
@@ -34,26 +34,26 @@
         </div>
     </div>
 
-    <!-- RECEIPT MODAL -->
+    <!-- PAYOUT RECEIPT MODAL -->
     <div id="receipt-modal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeReceiptModal()">&times;</span>
             <div id="receipt-body" class="receipt-body"></div>
-            <button onclick="downloadPDF()" class="modal-btn">📥 Download PDF</button>
+            <button onclick="downloadPDF()" class="modal-btn">📥 Download Receipt</button>
         </div>
     </div>
 
     <!-- HOME PAGE -->
     <div id="home-page" class="page active">
         <div class="hero">
-            <h1>Turn Your E-Waste Into Cash ♻️</h1>
+            <h1>Get Cash for Your Old Electronics ♻️</h1>
             <p>India's Premium Urban Mining Network</p>
-            <p class="tagline">Get instant quotes • Free pickup • Environmental impact tracking</p>
-            <button class="btn-primary" onclick="showPage('app'); return false;">Sell Your E-Waste Now</button>
+            <p class="tagline">Instant quotes • Free pickup • Fair pricing</p>
+            <button class="btn-primary" onclick="showPage('app'); return false;">Get Your Quote Now</button>
         </div>
 
         <div class="impact-section">
-            <h2>Our Impact</h2>
+            <h2>Your Impact Matters</h2>
             <div class="impact-grid">
                 <div class="impact-card">
                     <h3>81.10L kg</h3>
@@ -78,38 +78,38 @@
     <!-- SERVICES PAGE -->
     <div id="services-page" class="page">
         <div class="page-header">
-            <h1>Our Services</h1>
+            <h1>How We Pay You</h1>
         </div>
         <div class="services-grid">
             <div class="service-card">
-                <div class="service-icon">🏠</div>
-                <h3>Individual Collections</h3>
-                <p>Free pickup for >50kg • ₹100 for smaller orders</p>
+                <div class="service-icon">📱</div>
+                <h3>Individual Devices</h3>
+                <p>Sell your old phones, laptops, and electronics instantly</p>
             </div>
             <div class="service-card">
                 <div class="service-icon">🏢</div>
-                <h3>Corporate Recycling</h3>
-                <p>Bulk collection • EPR compliance • Certifications</p>
+                <h3>Bulk Collections</h3>
+                <p>Business? We handle corporate e-waste in bulk</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🚚</div>
+                <h3>Free/Paid Pickup</h3>
+                <p>Orders >50kg get FREE pickup • <50kg = ₹100</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">⚡</div>
+                <h3>Instant Payment</h3>
+                <p>Get paid immediately via bank transfer</p>
             </div>
             <div class="service-card">
                 <div class="service-icon">🔒</div>
-                <h3>Data Destruction</h3>
-                <p>Secure disposal • Certificate included</p>
+                <h3>Data Security</h3>
+                <p>Certified secure destruction of your data</p>
             </div>
             <div class="service-card">
-                <div class="service-icon">📋</div>
-                <h3>EPR Management</h3>
-                <p>Government recognized PRO partner</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">🎯</div>
-                <h3>Zero Waste Events</h3>
-                <p>Sustainable event management</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">🚗</div>
-                <h3>Vehicle Scrapping</h3>
-                <p>Eco-friendly disposal</p>
+                <div class="service-icon">📊</div>
+                <h3>Track Impact</h3>
+                <p>See your environmental impact in real-time</p>
             </div>
         </div>
     </div>
@@ -117,20 +117,20 @@
     <!-- WHY PAGE -->
     <div id="why-page" class="page">
         <div class="page-header">
-            <h1>Why Choose NeoOre?</h1>
+            <h1>Why Sell to NeoOre?</h1>
         </div>
         <div class="why-container">
             <div class="why-item">
-                <h3>🌍 Environmental Impact</h3>
-                <p>82% recovery rate for precious metals. Zero landfill waste.</p>
-            </div>
-            <div class="why-item">
                 <h3>💰 Fair Pricing</h3>
-                <p>Transparent market-based valuations with no hidden fees.</p>
+                <p>Market-based prices for your e-waste. No hidden charges.</p>
             </div>
             <div class="why-item">
-                <h3>✅ Certified</h3>
-                <p>Government-approved facility following all regulations.</p>
+                <h3>🔄 Circular Economy</h3>
+                <p>Your devices get a second life. Precious metals are recovered responsibly.</p>
+            </div>
+            <div class="why-item">
+                <h3>🌍 Environmental</h3>
+                <p>Prevent toxic materials from reaching landfills. Save resources.</p>
             </div>
         </div>
     </div>
@@ -138,12 +138,13 @@
     <!-- APP PAGE (CALCULATOR) -->
     <div id="app-page" class="page">
         <div class="app-header">
-            <h1>📱 E-Waste Valuation Calculator</h1>
+            <h1>📱 Instant Payout Calculator</h1>
+            <p>See how much NeoOre will pay you for your e-waste</p>
         </div>
         
         <div class="app-container">
             <div class="device-selection">
-                <h2>Select Your Devices</h2>
+                <h2>What Are You Selling?</h2>
                 
                 <div class="device-tabs">
                     <button class="tab-btn active" onclick="switchTab('smartphones'); return false;">Smartphones</button>
@@ -157,10 +158,10 @@
             </div>
 
             <div class="payout-panel">
-                <h2>💰 Your Quote</h2>
+                <h2>💵 NeoOre Will Pay You</h2>
                 
                 <div class="payout-display">
-                    <div class="payout-label">You Get</div>
+                    <div class="payout-label">Total Payout</div>
                     <div class="payout-amount">₹<span id="customer-total">0</span></div>
                     <div class="payout-weight">Weight: <span id="customer-weight">0</span> kg</div>
                 </div>
@@ -171,7 +172,7 @@
                         <span id="device-count">0</span>
                     </div>
                     <div class="detail-row">
-                        <span>⚖️ Weight:</span>
+                        <span>⚖️ Total Weight:</span>
                         <span id="detail-weight">0</span> kg
                     </div>
                     <div class="detail-row">
@@ -181,19 +182,19 @@
                 </div>
 
                 <div class="environmental-impact">
-                    <h4>🌱 Environmental Impact</h4>
-                    <div class="impact-item">💨 CO₂ Saved: <strong id="co2-saved">0</strong> kg</div>
+                    <h4>🌱 Your Environmental Impact</h4>
+                    <div class="impact-item">💨 CO₂ Prevented: <strong id="co2-saved">0</strong> kg</div>
                     <div class="impact-item">💧 Water Saved: <strong id="water-saved">0</strong> L</div>
                     <div class="impact-item">⚡ Energy Saved: <strong id="energy-saved">0</strong> kWh</div>
                 </div>
 
                 <div class="action-buttons">
-                    <button class="btn btn-primary" onclick="generateReceipt(); return false;">📋 Get Receipt PDF</button>
+                    <button class="btn btn-primary" onclick="generateReceipt(); return false;">📋 Get Payout Receipt</button>
                     <button class="btn btn-secondary" onclick="resetCalculator(); return false;">🔄 Reset</button>
                 </div>
 
                 <div class="pickup-info">
-                    <small>✓ Free pickup >50kg | ₹100 for smaller orders</small>
+                    <small>✓ Free pickup for orders >50kg | ₹100 pickup for orders <50kg</small>
                 </div>
             </div>
         </div>
@@ -218,7 +219,7 @@
                 </div>
                 <div class="stat-card">
                     <h3>₹<span id="total-revenue">0</span></h3>
-                    <p>Total Revenue</p>
+                    <p>Metal Value Extracted</p>
                 </div>
                 <div class="stat-card">
                     <h3>₹<span id="total-profit">0</span></h3>
@@ -226,7 +227,7 @@
                 </div>
                 <div class="stat-card">
                     <h3 id="avg-margin">0%</h3>
-                    <p>Avg Margin</p>
+                    <p>Avg Profit Margin</p>
                 </div>
             </div>
 
@@ -238,7 +239,7 @@
     </div>
 
     <footer>
-        <p>&copy; 2025 NeoOre | Building a circular economy</p>
+        <p>&copy; 2025 NeoOre | Sustainable e-waste recycling with fair payouts</p>
     </footer>
 
     <script src="app.js"></script>
