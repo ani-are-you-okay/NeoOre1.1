@@ -40,29 +40,9 @@ let currentOrder = null;
 
 // INIT
 document.addEventListener('DOMContentLoaded', () => {
-    loadTheme();
     renderAllDevices();
     showPage('home');
 });
-
-// THEME
-function toggleTheme() {
-    document.documentElement.classList.toggle('dark-mode');
-    localStorage.setItem('theme', document.documentElement.classList.contains('dark-mode') ? 'dark' : 'light');
-    updateThemeIcon();
-}
-
-function loadTheme() {
-    if (localStorage.getItem('theme') === 'dark') {
-        document.documentElement.classList.add('dark-mode');
-    }
-    updateThemeIcon();
-}
-
-function updateThemeIcon() {
-    const isDark = document.documentElement.classList.contains('dark-mode');
-    document.querySelector('.theme-toggle').textContent = isDark ? '☀️' : '🌙';
-}
 
 // PAGES
 function showPage(pageName) {
@@ -214,12 +194,12 @@ function generateReceipt() {
     });
 
     const receiptHTML = `
-        <h2 style="text-align: center; color: #1b5e20;">NeoOre Payout Receipt</h2>
+        <h2 style="text-align: center; color: #FC6736;">NeoOre Payout Receipt</h2>
         <p style="text-align: center; font-size: 0.9em;">${new Date().toLocaleDateString()}</p>
         
-        <h3 style="color: #1b5e20; margin-top: 20px;">Devices You're Selling</h3>
+        <h3 style="color: #FC6736; margin-top: 20px;">Devices You're Selling</h3>
         <table style="width: 100%; border-collapse: collapse; font-size: 0.9em;">
-            <tr style="background: #e8f5e9;">
+            <tr style="background: #FBF9F6;">
                 <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Device</th>
                 <th style="border: 1px solid #ddd; padding: 8px;">Qty</th>
                 <th style="border: 1px solid #ddd; padding: 8px;">Unit Price</th>
@@ -228,14 +208,14 @@ function generateReceipt() {
             ${deviceHTML}
         </table>
 
-        <h3 style="color: #1b5e20; margin-top: 20px;">Payout Details</h3>
+        <h3 style="color: #FC6736; margin-top: 20px;">Payout Details</h3>
         <p><strong>Total Devices:</strong> ${currentOrder.deviceCount}</p>
         <p><strong>Total Weight:</strong> ${currentOrder.totalWeight.toFixed(2)} kg</p>
         <p><strong>Base Payout:</strong> ₹${Math.round(currentOrder.totalBasePayouts)}</p>
         ${currentOrder.deliveryCost > 0 ? `<p><strong>Less Delivery Cost:</strong> -₹${currentOrder.deliveryCost}</p>` : '<p><strong>Delivery:</strong> FREE</p>'}
-        <p style="font-size: 1.3em; color: #1b5e20; margin-top: 20px; padding: 15px; background: #e8f5e9; border-radius: 8px;"><strong>You Will Receive: ₹${Math.round(currentOrder.userActuallyGets)}</strong></p>
+        <p style="font-size: 1.3em; color: #FC6736; margin-top: 20px; padding: 15px; background: #FBF9F6; border-radius: 8px;"><strong>You Will Receive: ₹${Math.round(currentOrder.userActuallyGets)}</strong></p>
 
-        <h3 style="color: #1b5e20; margin-top: 20px;">Your Environmental Impact</h3>
+        <h3 style="color: #FC6736; margin-top: 20px;">Your Environmental Impact</h3>
         <p>💨 CO₂ Prevented: ${(currentOrder.totalWeight * 1.5).toFixed(2)} kg</p>
         <p>💧 Water Saved: ${Math.round(currentOrder.totalWeight * 50)} L</p>
         <p>⚡ Energy Saved: ${(currentOrder.totalWeight * 8).toFixed(1)} kWh</p>
@@ -319,7 +299,7 @@ function loadAdminDashboard() {
 
     const ordersList = document.getElementById('orders-list');
     if (orders.length === 0) {
-        ordersList.innerHTML = '<p style="text-align: center;">No orders yet</p>';
+        ordersList.innerHTML = '<p style="text-align: center; color: #666;">No orders yet</p>';
         return;
     }
 
@@ -334,7 +314,7 @@ function loadAdminDashboard() {
                 <div class="order-detail-item"><span>Delivery:</span> <strong>₹${order.deliveryCost}</strong></div>
                 <div class="order-detail-item"><span>Customer Gets:</span> <strong>₹${Math.round(order.userActuallyGets)}</strong></div>
                 <div class="order-detail-item"><span>Operating Cost:</span> <strong>₹${Math.round(order.operatingCost)}</strong></div>
-                <div class="order-detail-item"><span>Profit:</span> <strong style="color: #2e7d32;">₹${Math.round(order.neooreProfit)}</strong></div>
+                <div class="order-detail-item"><span>Profit:</span> <strong style="color: #FC6736;">₹${Math.round(order.neooreProfit)}</strong></div>
                 <div class="order-detail-item"><span>Margin:</span> <strong>${order.profitMargin.toFixed(2)}%</strong></div>
                 <div class="order-detail-item"><span>Date:</span> <strong>${order.date}</strong></div>
             </div>
