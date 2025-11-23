@@ -61,10 +61,10 @@ function renderAllDevices() {
 function renderDevices(category) {
     const container = document.getElementById(category);
     if (!container) return;
-    
+
     container.innerHTML = '';
     const tiers = devices[category];
-    
+
     Object.keys(tiers).forEach(tierKey => {
         const device = tiers[tierKey];
         const html = `
@@ -114,11 +114,11 @@ function updateCalculations() {
         Object.keys(devices[category]).forEach(tierKey => {
             const device = devices[category][tierKey];
             const qty = parseInt(document.getElementById(`qty-${device.id}`).value || 0);
-            
+
             if (qty > 0) {
                 // NO CONDITION MULTIPLIER - always 1.0
                 const actualWeight = device.weight * qty;
-                
+
                 // Calculate metal value
                 let metalValue = 0;
                 Object.keys(device.metals).forEach(metal => {
@@ -131,10 +131,10 @@ function updateCalculations() {
                 // Fixed base payout
                 const basePayout = device.payoutPrice * qty;
 
-                selections[device.id] = { 
-                    name: device.name, 
-                    tier: device.tier, 
-                    qty, 
+                selections[device.id] = {
+                    name: device.name,
+                    tier: device.tier,
+                    qty,
                     actualWeight,
                     metalValue,
                     payoutPrice: device.payoutPrice,
@@ -150,9 +150,21 @@ function updateCalculations() {
         });
     });
 
-    // DELIVERY COST
-    const deliveryCost = totalWeight > bulkThreshold ? 0 : pickupFeeSmall;
+    // ----------------------------------------------------------------
+    // NEW DELIVERY COST LOGIC: Only charge fee if there are devices AND the weight is below the bulk threshold
+    let deliveryCost = 0;
+    let pickupStatusText = 'FREE Pickup';
+
+    if (deviceCount > 0) {
+        if (totalWeight < bulkThreshold) { // FIX: Changed from <= to < so 50kg is FREE
+            deliveryCost = pickupFeeSmall;
+            pickupStatusText = '₹100 Delivery';
+        }
+    }
+
     const userActuallyGets = totalBasePayouts - deliveryCost;
+    // ----------------------------------------------------------------
+
     const neooreProfit = totalMetalValue - totalBasePayouts - operatingCost;
     const profitMargin = totalMetalValue > 0 ? (neooreProfit / totalMetalValue * 100) : 0;
 
@@ -161,7 +173,7 @@ function updateCalculations() {
     document.getElementById('customer-weight').textContent = totalWeight.toFixed(2);
     document.getElementById('device-count').textContent = deviceCount;
     document.getElementById('detail-weight').textContent = totalWeight.toFixed(2);
-    document.getElementById('pickup-status').textContent = totalWeight > bulkThreshold ? 'FREE Pickup' : '₹100 Delivery';
+    document.getElementById('pickup-status').textContent = pickupStatusText;
     document.getElementById('co2-saved').textContent = (totalWeight * 1.5).toFixed(2);
     document.getElementById('water-saved').textContent = Math.round(totalWeight * 50);
     document.getElementById('energy-saved').textContent = (totalWeight * 8).toFixed(1);
@@ -190,39 +202,45 @@ function generateReceipt() {
     let deviceHTML = '';
     Object.keys(currentOrder.selections).forEach(key => {
         const sel = currentOrder.selections[key];
-        deviceHTML += `<tr><td>${sel.name} [${sel.tier}]</td><td>${sel.qty}</td><td>₹${Math.round(sel.payoutPrice)}</td><td>₹${Math.round(sel.basePayout)}</td></tr>`;
+        // Ensure all table cells are explicitly left-aligned except the final total
+        deviceHTML += `<tr style="color: #000;"><td style="border: 1px solid #ddd; padding: 8px; text-align: left; color: #000 !important;">${sel.name} [${sel.tier}]</td><td style="border: 1px solid #ddd; padding: 8px; text-align: left; color: #000 !important;">${sel.qty}</td><td style="border: 1px solid #ddd; padding: 8px; text-align: left; color: #000 !important;">₹${Math.round(sel.payoutPrice)}</td><td style="border: 1px solid #ddd; padding: 8px; text-align: right; color: #000 !important;">₹${Math.round(sel.basePayout)}</td></tr>`;
     });
 
+    // FIX: Wrapped the receipt content in an aggressive 100% width, zero-margin container
     const receiptHTML = `
-        <h2 style="text-align: center; color: #FC6736;">NeoOre Payout Receipt</h2>
-        <p style="text-align: center; font-size: 0.9em;">${new Date().toLocaleDateString()}</p>
-        
-        <h3 style="color: #FC6736; margin-top: 20px;">Devices You're Selling</h3>
-        <table style="width: 100%; border-collapse: collapse; font-size: 0.9em;">
-            <tr style="background: #FBF9F6;">
-                <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Device</th>
-                <th style="border: 1px solid #ddd; padding: 8px;">Qty</th>
-                <th style="border: 1px solid #ddd; padding: 8px;">Unit Price</th>
-                <th style="border: 1px solid #ddd; padding: 8px; text-align: right;">Total</th>
-            </tr>
-            ${deviceHTML}
-        </table>
+        <div style="width: 100%; max-width: 100%; margin: 0; padding: 0;">
+            <div style="color: #000 !important; background-color: #fff !important; width: 100% !important; text-align: left !important; padding: 0;">
+                <h2 style="text-align: center; margin: 0; color: #000 !important;">NeoOre Payout Receipt</h2>
+                <p style="text-align: center; font-size: 0.9em; color: #666 !important; margin-top: 5px;">${new Date().toLocaleDateString()}</p>
 
-        <h3 style="color: #FC6736; margin-top: 20px;">Payout Details</h3>
-        <p><strong>Total Devices:</strong> ${currentOrder.deviceCount}</p>
-        <p><strong>Total Weight:</strong> ${currentOrder.totalWeight.toFixed(2)} kg</p>
-        <p><strong>Base Payout:</strong> ₹${Math.round(currentOrder.totalBasePayouts)}</p>
-        ${currentOrder.deliveryCost > 0 ? `<p><strong>Less Delivery Cost:</strong> -₹${currentOrder.deliveryCost}</p>` : '<p><strong>Delivery:</strong> FREE</p>'}
-        <p style="font-size: 1.3em; color: #FC6736; margin-top: 20px; padding: 15px; background: #FBF9F6; border-radius: 8px;"><strong>You Will Receive: ₹${Math.round(currentOrder.userActuallyGets)}</strong></p>
+                <h3 style="margin-top: 20px; margin-bottom: 5px; color: #000 !important; text-align: left !important; margin-left: 10px;">Devices You're Selling</h3>
+                <table style="width: 100%; border-collapse: collapse; font-size: 1.0em; color: #000 !important; text-align: left !important; margin: 10px 0;">
+                    <tr style="background: #F0F0F0; color: #000 !important;">
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align: left; color: #000 !important;">Device</th>
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align: left; color: #000 !important;">Qty</th>
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align: left; color: #000 !important;">Unit Price</th>
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align: right; color: #000 !important;">Total</th>
+                    </tr>
+                    ${deviceHTML}
+                </table>
 
-        <h3 style="color: #FC6736; margin-top: 20px;">Your Environmental Impact</h3>
-        <p>💨 CO₂ Prevented: ${(currentOrder.totalWeight * 1.5).toFixed(2)} kg</p>
-        <p>💧 Water Saved: ${Math.round(currentOrder.totalWeight * 50)} L</p>
-        <p>⚡ Energy Saved: ${(currentOrder.totalWeight * 8).toFixed(1)} kWh</p>
+                <h3 style="margin-top: 20px; margin-bottom: 5px; color: #000 !important; text-align: left !important; margin-left: 10px;">Payout Details</h3>
+                <p style="color: #000 !important; text-align: left !important; margin-left: 10px;"><strong>Total Devices:</strong> ${currentOrder.deviceCount}</p>
+                <p style="color: #000 !important; text-align: left !important; margin-left: 10px;"><strong>Total Weight:</strong> ${currentOrder.totalWeight.toFixed(2)} kg</p>
+                <p style="color: #000 !important; text-align: left !important; margin-left: 10px;"><strong>Base Payout:</strong> ₹${Math.round(currentOrder.totalBasePayouts)}</p>
+                ${currentOrder.deliveryCost > 0 ? `<p style="color: #000 !important; text-align: left !important; margin-left: 10px;"><strong>Less Delivery Cost:</strong> -₹${currentOrder.deliveryCost}</p>` : '<p style="color: #000 !important; text-align: left !important; margin-left: 10px;"><strong>Delivery:</strong> FREE</p>'}
+                <p style="font-size: 1.3em; color: #FC6736 !important; margin-top: 20px; padding: 15px; background: #FBF9F6; border-radius: 8px; text-align: center !important;"><strong>You Will Receive: ₹${Math.round(currentOrder.userActuallyGets)}</strong></p>
 
-        <p style="margin-top: 30px; font-size: 0.85em; color: #666;">
-            Our team will contact you within 24 hours to schedule pickup.
-        </p>
+                <h3 style="margin-top: 20px; margin-bottom: 5px; color: #000 !important; text-align: left !important; margin-left: 10px;">Your Environmental Impact</h3>
+                <p style="color: #000 !important; text-align: left !important; margin-left: 10px;">💨 CO₂ Prevented: ${(currentOrder.totalWeight * 1.5).toFixed(2)} kg</p>
+                <p style="color: #000 !important; text-align: left !important; margin-left: 10px;">💧 Water Saved: ${Math.round(currentOrder.totalWeight * 50)} L</p>
+                <p style="color: #000 !important; text-align: left !important; margin-left: 10px;">⚡ Energy Saved: ${(currentOrder.totalWeight * 8).toFixed(1)} kWh</p>
+
+                <p style="margin-top: 30px; font-size: 0.85em; color: #666 !important; text-align: left !important; margin-left: 10px;">
+                    Our team will contact you within 24 hours to schedule pickup.
+                </p>
+            </div>
+        </div>
     `;
 
     document.getElementById('receipt-body').innerHTML = receiptHTML;
@@ -232,15 +250,29 @@ function generateReceipt() {
 
 function downloadPDF() {
     const element = document.getElementById('receipt-body');
+    
+    // No temporary style manipulation needed due to the new aggressive inner HTML structure.
+    
     const opt = {
-        margin: 10,
+        // Keeps the desired PDF margins (20mm top, 10mm left/right/bottom)
+        margin: [20, 10, 10, 10], 
         filename: `NeoOre-Payout-${Date.now()}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
+        html2canvas: { 
+            scale: 2,
+            x: 315,     
+            y: 0,
+            scrollY: 0,
+            scrollX: 0
+        },
         jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' }
     };
-    html2pdf().set(opt).from(element).save();
-    closeReceiptModal();
+    
+    // Ensure the modal closes after saving.
+    html2pdf().set(opt).from(element).save().finally(() => {
+        closeReceiptModal();
+        resetCalculator();
+    });
 }
 
 function closeReceiptModal() {

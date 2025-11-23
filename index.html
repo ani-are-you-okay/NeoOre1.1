@@ -4,17 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NeoOre - Sell Your E-Waste for Cash</title>
+    <link rel="icon" type="image/png" href="logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
-<body>
-    <!-- NAVBAR -->
-    <nav class="navbar">
+<body class="dark-theme">
+    <nav class="navbar premium-dark">>
         <div class="nav-container">
-            <div class="logo">🌍 NeoOre</div>
+            <div class="logo">
+                <img src="logo.png" alt="NeoOre Company Logo" class="logo-img">
+                <span class="logo-text">NeoOre</span>
+            </div>
             <div class="nav-links">
                 <a href="#home" onclick="showPage('home'); return false;">Home</a>
                 <a href="#services" onclick="showPage('services'); return false;">Services</a>
@@ -26,7 +29,6 @@
         </div>
     </nav>
 
-    <!-- ADMIN LOGIN MODAL -->
     <div id="admin-modal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeAdminModal()">&times;</span>
@@ -37,7 +39,6 @@
         </div>
     </div>
 
-    <!-- PAYOUT RECEIPT MODAL -->
     <div id="receipt-modal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeReceiptModal()">&times;</span>
@@ -46,11 +47,13 @@
         </div>
     </div>
 
-    <!-- HOME PAGE -->
     <div id="home-page" class="page active">
-        <div class="hero">
+        <div class="page-header">
             <h1>Turn Old Gadgets Into Cash 💰</h1>
             <p>Get Instant Payouts for Your E-Waste</p>
+        </div>
+
+        <div class="hero">
             <p class="tagline">Transparent Pricing • Free Pickup • Environmental Impact</p>
             <button class="btn-primary" onclick="showPage('app'); return false;">Get Your Quote</button>
         </div>
@@ -58,19 +61,19 @@
         <div class="impact-section">
             <h2>The Impact You Make</h2>
             <div class="impact-grid">
-                <div class="impact-card">
+                <div class="impact-card dark-card">
                     <h3>81.10L</h3>
                     <p>kg E-Waste Diverted</p>
                 </div>
-                <div class="impact-card">
+                <div class="impact-card dark-card">
                     <h3>13.8Cr</h3>
                     <p>Liters Water Conserved</p>
                 </div>
-                <div class="impact-card">
+                <div class="impact-card dark-card">
                     <h3>5.65L</h3>
                     <p>kWh Electricity Saved</p>
                 </div>
-                <div class="impact-card">
+                <div class="impact-card dark-card">
                     <h3>10K+</h3>
                     <p>Trees Saved</p>
                 </div>
@@ -78,38 +81,37 @@
         </div>
     </div>
 
-    <!-- SERVICES PAGE -->
     <div id="services-page" class="page">
         <div class="page-header">
             <h1>Our Services</h1>
         </div>
-        <div class="services-grid">
-            <div class="service-card">
+        <div class="services-grid tile-grid">
+            <div class="service-card dark-card">
                 <div class="service-icon">📱</div>
                 <h3>Individual Sales</h3>
                 <p>Sell phones, laptops, and gadgets for instant cash</p>
             </div>
-            <div class="service-card">
+            <div class="service-card dark-card">
                 <div class="service-icon">🏢</div>
                 <h3>Bulk Collections</h3>
                 <p>Corporate e-waste solutions with best pricing</p>
             </div>
-            <div class="service-card">
+            <div class="service-card dark-card">
                 <div class="service-icon">🚚</div>
                 <h3>Free/Paid Pickup</h3>
                 <p>>50kg FREE • <50kg ₹100 delivery</p>
             </div>
-            <div class="service-card">
+            <div class="service-card dark-card">
                 <div class="service-icon">⚡</div>
                 <h3>Instant Payment</h3>
                 <p>Bank transfer within 48 hours of collection</p>
             </div>
-            <div class="service-card">
+            <div class="service-card dark-card">
                 <div class="service-icon">🔒</div>
                 <h3>Secure Destruction</h3>
                 <p>Certified data destruction with certificate</p>
             </div>
-            <div class="service-card">
+            <div class="service-card dark-card">
                 <div class="service-icon">📊</div>
                 <h3>Track Impact</h3>
                 <p>Monitor your environmental savings in real-time</p>
@@ -117,7 +119,6 @@
         </div>
     </div>
 
-    <!-- ABOUT US PAGE -->
     <div id="about-page" class="page">
         <div class="page-header">
             <h1>About NeoOre</h1>
@@ -128,16 +129,16 @@
                 <p>Started in IITB 2025 by Animesh, Chinmay and Sasmit, working for a better future</p>
                 <div class="team-section">
                     <h3>Meet The Founders</h3>
-                    <div class="founders">
-                        <div class="founder">
+                    <div class="founders tile-grid">
+                        <div class="founder dark-card">
                             <h4>Animesh</h4>
                             <p>Co-Founder & CTO</p>
                         </div>
-                        <div class="founder">
+                        <div class="founder dark-card">
                             <h4>Chinmay</h4>
                             <p>Co-Founder & COO</p>
                         </div>
-                        <div class="founder">
+                        <div class="founder dark-card">
                             <h4>Sasmit</h4>
                             <p>Co-Founder & Business Lead</p>
                         </div>
@@ -147,42 +148,40 @@
         </div>
     </div>
 
-    <!-- WHY PAGE -->
     <div id="why-page" class="page">
         <div class="page-header">
             <h1>Why Choose NeoOre?</h1>
         </div>
-        <div class="why-container">
-            <div class="why-item">
+        <div class="why-container tile-grid">
+            <div class="why-item dark-card">
                 <h3>💰 Fair Pricing</h3>
                 <p>Market-based valuations based on metal content. Transparent calculations with no hidden charges.</p>
             </div>
-            <div class="why-item">
+            <div class="why-item dark-card">
                 <h3>🌍 Environmental Impact</h3>
                 <p>Prevent toxic e-waste from landfills. Recover precious metals responsibly through our certified process.</p>
             </div>
-            <div class="why-item">
+            <div class="why-item dark-card">
                 <h3>✅ Certified & Compliant</h3>
                 <p>Government-approved facility following all regulations. Your data security is our priority.</p>
             </div>
         </div>
     </div>
 
-    <!-- APP PAGE (CALCULATOR) -->
     <div id="app-page" class="page">
         <div class="app-header">
             <h1>💵 Instant Payout Calculator</h1>
             <p>See exactly how much you'll earn</p>
         </div>
-        
+
         <div class="app-container">
             <div class="device-selection">
                 <h2>Select Your Devices</h2>
-                
+
                 <div class="device-tabs">
-                    <button class="tab-btn active" onclick="switchTab('smartphones'); return false;">📱 Phones</button>
-                    <button class="tab-btn" onclick="switchTab('laptops'); return false;">💻 Laptops</button>
-                    <button class="tab-btn" onclick="switchTab('other'); return false;">⚙️ Other</button>
+                    <button class="tab-btn active" onclick="switchTab('smartphones');">📱 Phones</button>
+                    <button class="tab-btn" onclick="switchTab('laptops');">💻 Laptops</button>
+                    <button class="tab-btn" onclick="switchTab('other');">⚙️ Other</button>
                 </div>
 
                 <div id="smartphones" class="device-list active"></div>
@@ -192,21 +191,21 @@
 
             <div class="payout-panel">
                 <h2>You'll Earn</h2>
-                
-                <div class="payout-display">
+
+                <div class="payout-display dark-card">
                     <div class="payout-label">Total Payout</div>
                     <div class="payout-amount">₹<span id="customer-total">0</span></div>
                     <div class="payout-weight">📦 <span id="customer-weight">0</span> kg</div>
                 </div>
 
-                <div class="payout-details">
+                <div class="payout-details dark-subcard">
                     <div class="detail-row">
                         <span>Devices Selected:</span>
                         <span id="device-count">0</span>
                     </div>
                     <div class="detail-row">
-                        <span>Total Weight:</span>
-                        <span id="detail-weight">0</span> kg
+                        <span>Total Weight (kg):</span>
+                        <span id="detail-weight">0</span>
                     </div>
                     <div class="detail-row">
                         <span>Pickup Status:</span>
@@ -214,7 +213,7 @@
                     </div>
                 </div>
 
-                <div class="environmental-impact">
+                <div class="environmental-impact dark-subcard">
                     <h4>🌱 Your Impact</h4>
                     <div class="impact-item">💨 CO₂ Prevented: <span id="co2-saved">0</span> kg</div>
                     <div class="impact-item">💧 Water Saved: <span id="water-saved">0</span> L</div>
@@ -233,7 +232,6 @@
         </div>
     </div>
 
-    <!-- ADMIN PAGE -->
     <div id="admin-page" class="page">
         <div class="admin-header">
             <h1>📊 Dashboard</h1>
@@ -241,31 +239,31 @@
         </div>
 
         <div class="admin-content">
-            <div class="admin-stats">
-                <div class="stat-card">
+            <div class="admin-stats tile-grid">
+                <div class="stat-card dark-card">
                     <h3 id="total-orders">0</h3>
                     <p>Orders</p>
                 </div>
-                <div class="stat-card">
+                <div class="stat-card dark-card">
                     <h3 id="total-weight">0</h3>
                     <p>Weight (kg)</p>
                 </div>
-                <div class="stat-card">
+                <div class="stat-card dark-card">
                     <h3>₹<span id="total-revenue">0</span></h3>
                     <p>Metal Value</p>
                 </div>
-                <div class="stat-card">
+                <div class="stat-card dark-card">
                     <h3>₹<span id="total-profit">0</span></h3>
                     <p>Profit</p>
                 </div>
-                <div class="stat-card">
+                <div class="stat-card dark-card">
                     <h3 id="avg-margin">0%</h3>
                     <p>Margin</p>
                 </div>
             </div>
 
             <h2 style="color: #FC6736; margin-top: 40px; margin-bottom: 25px; font-size: 1.5em;">Recent Orders</h2>
-            <div id="orders-list" class="orders-list">
+            <div id="orders-list" class="orders-list tile-grid">
                 <p style="text-align: center; color: #666;">No orders yet</p>
             </div>
         </div>
